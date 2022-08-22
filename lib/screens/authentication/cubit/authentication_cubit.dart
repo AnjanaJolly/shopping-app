@@ -54,7 +54,7 @@ class AuthenticationCubit extends MainCubit<AuthCubitState> {
   }
 
   Future<void> verifyPhone(String number) async {
-    emit(LoginLoadingState());
+    emit(OtpLoginLoadingState());
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: number,
@@ -63,7 +63,7 @@ class AuthenticationCubit extends MainCubit<AuthCubitState> {
           emit(OTPVerificationMainState(message: credential.signInMethod));
         },
         verificationFailed: (FirebaseAuthException e) {
-          emit(LoginFailureState(response: e.message!));
+          emit(OtpLoginFailureState(response: e.message!));
         },
         codeSent: (String verificationId, int? resendToken) {
           emit(OTPSentSuccessState());
@@ -75,7 +75,7 @@ class AuthenticationCubit extends MainCubit<AuthCubitState> {
         },
       );
     } on FirebaseAuthException catch (e) {
-      emit(LoginFailureState(response: e.message!));
+      emit(OtpLoginFailureState(response: e.message!));
     }
   }
 
@@ -90,7 +90,7 @@ class AuthenticationCubit extends MainCubit<AuthCubitState> {
           (await FirebaseAuth.instance.signInWithCredential(credential));
       emit(OtpLoginSuccessState(credential: user));
     } on FirebaseAuthException catch (e) {
-      emit(LoginFailureState(response: e.message!));
+      emit(OtpLoginFailureState(response: e.message!));
     }
   }
 }

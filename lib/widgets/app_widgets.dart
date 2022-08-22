@@ -76,4 +76,35 @@ class AppWidgets {
           color: fontColor),
     );
   }
+
+  static Widget plusMinusButton(void Function()? onMinusPressed,
+      void Function()? onPlusPressed, String quantity, Color buttonColor) {
+    return Container(
+      height: 40,
+      width: 150,
+      decoration: BoxDecoration(
+          color: buttonColor, borderRadius: BorderRadius.circular(30)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(
+                Icons.remove,
+                color: AppColors.backgroundWhite,
+              ),
+              onPressed: onMinusPressed),
+          AppWidgets.text(quantity.toString(), FontWeight.w600,
+              AppColors.backgroundWhite, 18),
+          IconButton(
+              padding: EdgeInsets.zero,
+              icon: const Icon(
+                Icons.add,
+                color: AppColors.backgroundWhite,
+              ),
+              onPressed: onPlusPressed)
+        ],
+      ),
+    );
+  }
 }

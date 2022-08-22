@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../../../cubit/main_cubit.dart';
 import '../../../data/database/dBHelper.dart';
 import '../../../data/models/cart.dart';
@@ -50,8 +49,7 @@ class CartCubit extends MainCubit<CartCubitState> {
 
   int getItemQuantity(Dish dish) {
     var val = cart.indexWhere((element) => element.id == dish.dishId);
-    print(val);
-    print(dish.quantity);
+
     if (val < 0) {
       dish.quantity = 0;
     } else {
@@ -83,7 +81,6 @@ class CartCubit extends MainCubit<CartCubitState> {
       calories: dish.dishCalories,
       image: dish.dishImage,
     );
-    print(cart);
     getItemQuantity(dish);
     dbHelper.insert(cart);
     getData();
@@ -100,9 +97,9 @@ class CartCubit extends MainCubit<CartCubitState> {
   void addQuantity(String id) {
     emit(CartCubitLoadaingState());
     final index = cart.indexWhere((element) => element.id == id);
-    print(cart[index].quantity!);
+
     cart[index].quantity = cart[index].quantity! + 1;
-    print(cart[index].quantity!);
+
     dbHelper.updateQuantity(cart[index]);
     emit(CartCubitSuccessState());
   }
@@ -115,7 +112,6 @@ class CartCubit extends MainCubit<CartCubitState> {
       removeItem(id);
     } else {
       cart[index].quantity = currentQuantity - 1;
-      print(currentQuantity);
     }
     if (cart.isEmpty) {
       placeOrder();

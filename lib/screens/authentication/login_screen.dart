@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:food_delivery/screens/authentication/cubit/authentication_cubit.dart';
@@ -21,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    print(BlocProvider.of<AuthenticationCubit>(context).state);
     super.initState();
   }
 
@@ -49,11 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
               );
             } else if (state is LoginFailureState) {
               loader.hide(context);
-              showMessage(state.response);
+              BotToast.showText(text: state.response);
             }
-            setState(() {
-              loader.hide(context);
-            });
           },
           child: body(),
         ));
@@ -108,23 +107,4 @@ class _LoginScreenState extends State<LoginScreen> {
       color: AppColors.phone_green,
       path: 'assets/images/phone_logo.png',
       loader: false);
-
-  void showMessage(String message) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text(message),
-            actions: [
-              TextButton(
-                child: Text("Ok"),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              )
-            ],
-          );
-        });
-  }
 }

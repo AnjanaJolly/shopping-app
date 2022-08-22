@@ -50,7 +50,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               bloc: BlocProvider.of<AuthenticationCubit>(context),
               listener: (context, state) {
                 print(state);
-                if (state is LoginLoadingState) {
+                if (state is OtpLoginLoadingState) {
                   loader.show(context);
                 }
                 if (state is OTPSentSuccessState) {
@@ -63,7 +63,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   loader.hide(context);
                   BotToast.showText(text: state.message);
                 }
-                if (state is LoginFailureState) {
+                if (state is OtpLoginFailureState) {
                   loader.hide(context);
                   BotToast.showText(text: state.response);
                 }
@@ -81,10 +81,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   );
-                } else {
-                  setState(() {
-                    loader.hide(context);
-                  });
                 }
               },
               child: body()),

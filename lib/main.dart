@@ -9,6 +9,7 @@ import 'package:food_delivery/screens/cart/cubit/cart_cubit.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(MultiBlocProvider(providers: [
     BlocProvider<AuthenticationCubit>(
       create: (BuildContext context) => AuthenticationCubit(),
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(BlocProvider.of<AuthenticationCubit>(context).state);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

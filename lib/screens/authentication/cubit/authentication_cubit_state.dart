@@ -21,20 +21,17 @@ class LoginSuccessState extends AuthCubitState {
   List<Object?> get props => [isSuccess, credential];
 }
 
-class OtpLoginSuccessState extends AuthCubitState {
-  final bool isSuccess;
-  final UserCredential credential;
-  OtpLoginSuccessState({this.isSuccess = false, required this.credential});
-  @override
-  List<Object?> get props => [isSuccess, credential];
-}
-
 class LoginFailureState extends AuthCubitState {
   final bool isSuccess;
   final String response;
   LoginFailureState({this.isSuccess = false, this.response = ""});
   @override
   List<Object?> get props => [isSuccess, response];
+}
+
+class OtpLoginLoadingState extends AuthCubitState {
+  @override
+  List<Object?> get props => [];
 }
 
 class OTPSentSuccessState extends AuthCubitState {
@@ -45,4 +42,20 @@ class OTPVerificationMainState extends AuthCubitState {
   final String message;
   OTPVerificationMainState({this.message = ""});
   List<Object?> get props => [message];
+}
+
+class OtpLoginSuccessState extends AuthCubitState {
+  final bool isSuccess;
+  final UserCredential credential;
+  OtpLoginSuccessState({this.isSuccess = false, required this.credential});
+  @override
+  List<Object?> get props => [isSuccess, credential];
+}
+
+class OtpLoginFailureState extends AuthCubitState {
+  final bool isSuccess;
+  final String response;
+  OtpLoginFailureState({this.isSuccess = false, this.response = ""});
+  @override
+  List<Object?> get props => [isSuccess, response];
 }

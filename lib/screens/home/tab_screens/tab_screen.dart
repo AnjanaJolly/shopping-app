@@ -123,7 +123,14 @@ class _TabScreenState extends State<TabScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  incrementDecrementButton(item, quantity),
+                  AppWidgets.plusMinusButton(
+                      quantity <= 0
+                          ? () {}
+                          : () {
+                              _cubit.upDateCart(item, removeItem: true);
+                            }, () {
+                    _cubit.upDateCart(item);
+                  }, quantity.toString(), AppColors.phone_green),
                   const SizedBox(
                     height: 10,
                   ),
@@ -156,43 +163,5 @@ class _TabScreenState extends State<TabScreen> {
         ],
       ),
     );
-  }
-
-  Widget incrementDecrementButton(Dish item, quantity) {
-    return Container(
-        height: 40,
-        width: 150,
-        decoration: BoxDecoration(
-            color: AppColors.phone_green,
-            borderRadius: BorderRadius.circular(30)),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(
-                    Icons.remove,
-                    color: AppColors.backgroundWhite,
-                  ),
-                  onPressed: () {
-                    _cubit.upDateCart(item, removeItem: true);
-                  }),
-              Text(
-                quantity.toString(),
-                style: TextStyle(
-                    color: AppColors.backgroundWhite,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600),
-              ),
-              IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(
-                    Icons.add,
-                    color: AppColors.backgroundWhite,
-                  ),
-                  onPressed: () {
-                    _cubit.upDateCart(item);
-                  })
-            ]));
   }
 }

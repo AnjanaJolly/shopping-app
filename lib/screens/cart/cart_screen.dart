@@ -61,6 +61,7 @@ class _CartScreenState extends State<CartScreen> {
             child: BlocBuilder<CartCubit, CartCubitState>(
                 builder: (context, state) {
               return Column(
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
@@ -123,82 +124,17 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                     ]),
                   ),
-                  InkWell(
-                    onTap: cubit.cart.isEmpty
-                        ? () {
-                            BotToast.showText(text: 'Cart is Empty !! ');
-                          }
-                        : () {
-                            BotToast.showText(
-                                text: 'Order Successfully Placed');
-                            cubit.placeOrder().then((value) {
-                              Navigator.of(context).pop();
-                            });
-                          },
-                    child: Container(
-                      margin: const EdgeInsets.all(20),
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: AppColors.order_green,
-                      ),
-                      alignment: Alignment.center,
-                      child: AppWidgets.text('Place Order', FontWeight.w500,
-                          AppColors.backgroundWhite, 20),
-                    ),
-                  )
+                  placeOrderButton
                 ],
               );
             }),
           ),
         ));
   }
-  /* */
-
-  Widget incrementDecrementButton(Cart item, index) {
-    return Container(
-      height: 40,
-      width: 120,
-      decoration: BoxDecoration(
-          color: AppColors.order_green,
-          borderRadius: BorderRadius.circular(30)),
-      child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              padding: EdgeInsets.zero,
-              icon: const Icon(
-                Icons.remove,
-                color: AppColors.backgroundWhite,
-              ),
-              onPressed: () {
-                cubit.removeQuantity(cubit.cart[index].id!);
-              },
-            ),
-            Text(
-              item.quantity.toString(),
-              style: const TextStyle(
-                  color: AppColors.backgroundWhite,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600),
-            ),
-            IconButton(
-                padding: EdgeInsets.zero,
-                icon: const Icon(
-                  Icons.add,
-                  color: AppColors.backgroundWhite,
-                ),
-                onPressed: () {
-                  cubit.addQuantity(cubit.cart[index].id!);
-                })
-          ]),
-    );
-  }
 
   Widget menuItem(Cart cart, int index) {
     return Container(
-      padding: EdgeInsets.only(left: 10, bottom: 10, top: 20, right: 10),
+      padding: const EdgeInsets.only(left: 10, bottom: 10, top: 20, right: 10),
       width: double.infinity,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -241,7 +177,11 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ]),
           ),
-          incrementDecrementButton(cart, index),
+          AppWidgets.plusMinusButton(() {
+            cubit.removeQuantity(cubit.cart[index].id!);
+          }, () {
+            cubit.addQuantity(cubit.cart[index].id!);
+          }, cart.quantity.toString(), AppColors.order_green),
           const SizedBox(
             width: 10,
           ),
@@ -255,6 +195,31 @@ class _CartScreenState extends State<CartScreen> {
       ),
     );
   }
+
+  Widget get placeOrderButton => InkWell(
+        onTap: cubit.cart.isEmpty
+            ? () {
+                BotToast.showText(text: 'Cart is Empty !! ');
+              }
+            : () {
+                BotToast.showText(text: 'Order Successfully Placed');
+                cubit.placeOrder().then((value) {
+                  Navigator.of(context).pop();
+                });
+              },
+        child: Container(
+          margin: const EdgeInsets.all(20),
+          height: 50,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: AppColors.order_green,
+          ),
+          alignment: Alignment.center,
+          child: AppWidgets.text(
+              'Place Order', FontWeight.w500, AppColors.backgroundWhite, 20),
+        ),
+      );
 
   Widget get seperator => Container(
         width: double.infinity,
